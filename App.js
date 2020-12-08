@@ -46,7 +46,7 @@ export default () => (
           name="SignIn" 
           component={SignIn} 
           options={{title :'Sign In'}} />
-        <AuthStack.Screen 
+        <AuthS tack.Screen 
           name="CreateAccount" 
           component={CreateAccount}
           options={{title :'Create Account'}} />
