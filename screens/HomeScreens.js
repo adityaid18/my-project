@@ -18,13 +18,12 @@ export const Home = ({navigation}) => (
       <Text style={styles.warna}>React Native by Me </Text>
    </TouchableOpacity>
    <TouchableOpacity
-   onPress={()=> navigation.push("Details", { name : "Reacts Native school"})}>
+   onPress={()=> navigation.push("Details", { name : "React Native school"})}>
       <Text style={styles.warna}>React Native School</Text>
    </TouchableOpacity>
    <TouchableOpacity
    onPress={()=> alert("todo!")}><Text style={styles.warna}>Drawer</Text>
-   </TouchableOpacity>
-   
+   </TouchableOpacity> 
  </ScreenContainer>
 );
 
@@ -53,10 +52,13 @@ export const Search = ({ navigation }) => (
   <ScreenContainer>
     <Text>Search Screen</Text>
     <TouchableOpacity
-      onPress={()=> alert("todo!")}><Text style={styles.warna}>Search</Text>
+      onPress={()=> navigation.push("Search2")}><Text style={styles.warna}>Search</Text>
     </TouchableOpacity>
     <TouchableOpacity
-      onPress={()=> alert("todo!")}><Text style={styles.warna}>React Native School</Text>
+      onPress={()=> navigation.navigate("Home", {
+        screen :"Details", 
+        params : { name : "React Native School"}  })}>
+      <Text style={styles.warna}>React Native School</Text>
     </TouchableOpacity>
 
   </ScreenContainer>

@@ -20,11 +20,14 @@ const AuthStack = createStackNavigator();
 const Tabs = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const SearchStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 const HomeStackScreen = () => (
 <HomeStack.Navigator>
   <HomeStack.Screen name="Home" component={Home}/>
-  <HomeStack.Screen name="Details" component={Details}/>
+  <HomeStack.Screen name="Details" component={Details} 
+  options={({ route }) => ({title : route.params.name}) }/>
 </HomeStack.Navigator>
 );
 
@@ -35,12 +38,26 @@ const SearchStackScreen = () => (
   </SearchStack.Navigator>
   );
 
-export default () => (
-    <NavigationContainer>
-      <Tabs.Navigator>
+const ProfileStackScreen = () => (
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen name="Profile" component={Profile}/>
+  </ProfileStack.Navigator>
+);
+
+const TabsScreen = () => (
+<Tabs.Navigator>
         <Tabs.Screen name="Home" component={HomeStackScreen} />
         <Tabs.Screen name="Search" component={SearchStackScreen} />
-      </Tabs.Navigator>
+</Tabs.Navigator>
+);
+
+export default () => (
+    <NavigationContainer>
+        <Drawer.Navigator>
+          <Drawer.Screen name="Home" component={TabsScreen}/>
+          <Drawer.Screen name="Profile" component={ProfileStackScreen}/>
+        </Drawer.Navigator>
+      
       {/* <AuthStack.Navigator>
         <AuthStack.Screen 
           name="SignIn" 
