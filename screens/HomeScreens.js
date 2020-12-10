@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity} from 'react-native';
-
+import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator} from 'react-native';
+import {AuthContext} from './context';
 
 const ScreenContainer = ({children}) => (
   <View style={styles.container}>{children}</View>
@@ -10,7 +10,7 @@ const ScreenContainer = ({children}) => (
 
 export const Splash = () => (
   <ScreenContainer>
-     <Text>Loading...</Text>
+     <ActivityIndicator size='large' color='#800000' />
    </ScreenContainer>
   );
 
@@ -18,12 +18,12 @@ export const Home = ({navigation}) => (
  <ScreenContainer>
    <Text>Master List Screen</Text>
    <TouchableOpacity
-    onPress={()=> navigation.push("Details", { name : "React native by me"})}>
+    onPress={()=> navigation.push("Details", { name : "React Native by me"})}>
       <Text style={styles.textcolor}>React Native by Me </Text>
    </TouchableOpacity>
    <TouchableOpacity
-    onPress={()=> navigation.push("Details", { name : "React Native School"})}>
-      <Text style={styles.textcolor}>React Native School</Text>
+    onPress={()=> navigation.push("Details", { name : "React Native Example"})}>
+      <Text style={styles.textcolor}>React Native Example </Text>
    </TouchableOpacity>
    <TouchableOpacity
     onPress={()=> navigation.toggleDrawer()}>
@@ -38,19 +38,23 @@ export const Details = ({route}) => (
       {route.params.name && <Text>{route.params.name}</Text>}
    </ScreenContainer>
   );
+  
+export const Profile = ({navigation}) => {
+  const { signOut } = React.useContext(AuthContext);
 
-export const Profile = ({navigation}) => (
-  <ScreenContainer>
-    <Text>Profil Screen</Text>
-    <TouchableOpacity
-   onPress={()=> navigation.toggleDrawer()}><Text style={styles.textcolor}>Drawer</Text>
-   </TouchableOpacity>
-   <TouchableOpacity
-   onPress={()=> alert("todo!")}><Text style={styles.textcolor}>Sign Out</Text>
-   </TouchableOpacity>
-    
-  </ScreenContainer>
- );
+  return(
+    <ScreenContainer>
+      <Text>Profile Screen</Text>
+      <TouchableOpacity
+     onPress={()=> navigation.toggleDrawer()}><Text style={styles.textcolor}>Drawer</Text>
+     </TouchableOpacity>
+     <TouchableOpacity
+     onPress={()=> signOut()}><Text style={styles.textcolor}>Sign Out</Text>
+     </TouchableOpacity>
+      
+    </ScreenContainer>
+   );
+};
 
 
 export const Search = ({ navigation }) => (
@@ -63,8 +67,8 @@ export const Search = ({ navigation }) => (
     <TouchableOpacity
       onPress={()=> navigation.navigate("Home", {
         screen :"Details", 
-        params : { name : "React Native School"} })}>
-          <Text style={styles.textcolor}>React Native School</Text>
+        params : { name : "React Native Example"} })}>
+          <Text style={styles.textcolor}>React Native Example</Text>
     </TouchableOpacity>
 
   </ScreenContainer>
@@ -77,11 +81,13 @@ export const Search = ({ navigation }) => (
   );
 
 export const SignIn = ({ navigation }) => {
+  const { signIn } = React.useContext(AuthContext);
+
     return(
     <View style={styles.container}>
       <Text>Sign In Screens</Text>
       <TouchableOpacity
-        onPress={()=> alert("todo!")}><Text style={styles.textcolor}>Sign In</Text>
+        onPress={()=> signIn()}><Text style={styles.textcolor}>Sign In</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={()=> navigation.push("CreateAccount")}>
@@ -92,22 +98,25 @@ export const SignIn = ({ navigation }) => {
 };
 
 export const CreateAccount = () => {
+  const { signUp } = React.useContext(AuthContext);
+
     return(
     <View style={styles.container}>
       <Text>Create Account Screens</Text>
-        <Button title="Sign Up" onPress={()=> alert("todo!")}/> 
+      <TouchableOpacity
+        onPress={()=> signUp()}>
+          <Text style={styles.textcolor}>Sign Out</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: '#f5f5f5',
     alignItems: 'center',
     justifyContent: 'center',
   },
