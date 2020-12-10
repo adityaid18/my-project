@@ -8,21 +8,26 @@ const ScreenContainer = ({children}) => (
 );
 
 
-
+export const Splash = () => (
+  <ScreenContainer>
+     <Text>Loading...</Text>
+   </ScreenContainer>
+  );
 
 export const Home = ({navigation}) => (
  <ScreenContainer>
    <Text>Master List Screen</Text>
    <TouchableOpacity
-   onPress={()=> navigation.push("Details", { name : "React native by me"})}>
-      <Text style={styles.warna}>React Native by Me </Text>
+    onPress={()=> navigation.push("Details", { name : "React native by me"})}>
+      <Text style={styles.textcolor}>React Native by Me </Text>
    </TouchableOpacity>
    <TouchableOpacity
-   onPress={()=> navigation.push("Details", { name : "React Native school"})}>
-      <Text style={styles.warna}>React Native School</Text>
+    onPress={()=> navigation.push("Details", { name : "React Native School"})}>
+      <Text style={styles.textcolor}>React Native School</Text>
    </TouchableOpacity>
    <TouchableOpacity
-   onPress={()=> alert("todo!")}><Text style={styles.warna}>Drawer</Text>
+    onPress={()=> navigation.toggleDrawer()}>
+     <Text style={styles.textcolor}>Drawer</Text>
    </TouchableOpacity> 
  </ScreenContainer>
 );
@@ -34,14 +39,14 @@ export const Details = ({route}) => (
    </ScreenContainer>
   );
 
-export const Profile = () => (
+export const Profile = ({navigation}) => (
   <ScreenContainer>
     <Text>Profil Screen</Text>
     <TouchableOpacity
-   onPress={()=> alert("todo!")}><Text style={styles.warna}>Drawer</Text>
+   onPress={()=> navigation.toggleDrawer()}><Text style={styles.textcolor}>Drawer</Text>
    </TouchableOpacity>
    <TouchableOpacity
-   onPress={()=> alert("todo!")}><Text style={styles.warna}>Sign Out</Text>
+   onPress={()=> alert("todo!")}><Text style={styles.textcolor}>Sign Out</Text>
    </TouchableOpacity>
     
   </ScreenContainer>
@@ -52,13 +57,14 @@ export const Search = ({ navigation }) => (
   <ScreenContainer>
     <Text>Search Screen</Text>
     <TouchableOpacity
-      onPress={()=> navigation.push("Search2")}><Text style={styles.warna}>Search</Text>
+      onPress={()=> navigation.push("Search2")}>
+        <Text style={styles.textcolor}>Search</Text>
     </TouchableOpacity>
     <TouchableOpacity
       onPress={()=> navigation.navigate("Home", {
         screen :"Details", 
-        params : { name : "React Native School"}  })}>
-      <Text style={styles.warna}>React Native School</Text>
+        params : { name : "React Native School"} })}>
+          <Text style={styles.textcolor}>React Native School</Text>
     </TouchableOpacity>
 
   </ScreenContainer>
@@ -70,26 +76,16 @@ export const Search = ({ navigation }) => (
    </ScreenContainer>
   );
 
-
-
-export const Splash = () => (
-  <ScreenContainer>
-     <Text>Loading...</Text>
-   </ScreenContainer>
-  );
-
-
-
 export const SignIn = ({ navigation }) => {
     return(
     <View style={styles.container}>
       <Text>Sign In Screens</Text>
       <TouchableOpacity
-        onPress={()=> alert("todo!")}><Text style={styles.warna}>Sign In</Text>
+        onPress={()=> alert("todo!")}><Text style={styles.textcolor}>Sign In</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={()=> navigation.push("CreateAccount")}>
-        <Text style={styles.warna}>Create Account</Text>
+        <Text style={styles.textcolor}>Create Account</Text>
       </TouchableOpacity>
     </View>
   );
@@ -106,10 +102,12 @@ export const CreateAccount = () => {
 
 
 
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#d3d3d3',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -119,7 +117,7 @@ const styles = StyleSheet.create({
     marginVertical:0,
     borderRadius: 5
   },
-  warna: {
+  textcolor: {
     color:'#007AFF'
   }
 });

@@ -51,7 +51,20 @@ const TabsScreen = () => (
 </Tabs.Navigator>
 );
 
-export default () => (
+export default () => {
+  const [isLoading, setISLoading] = React.useState(true);
+
+  React.useEffect(()=> {
+    setTimeout(() => {
+      setISLoading(false);
+    }, 1000);
+  }, []);
+
+  if (isLoading) {
+    return <Splash />;
+  }
+  
+  return(
     <NavigationContainer>
         <Drawer.Navigator>
           <Drawer.Screen name="Home" component={TabsScreen}/>
@@ -70,3 +83,4 @@ export default () => (
       </AuthStack.Navigator> */}
     </NavigationContainer>
   );
+}
