@@ -3,7 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'; 
 import {createDrawerNavigator} from '@react-navigation/drawer';
- 
+import  Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import {AuthContext} from './screens/context';
 import {SignIn, 
         CreateAccount,
@@ -17,8 +18,43 @@ import {SignIn,
 
 
 const AuthStack = createStackNavigator();
-const Drawer = createDrawerNavigator();
+const AuthStackScreen = () => (
+  <AuthStack.Navigator>
+  <AuthStack.Screen 
+    name="SignIn" 
+    component={SignIn} 
+    options={{title :'Sign In'}} />
+  <AuthStack.Screen 
+    name="CreateAccount" 
+    component={CreateAccount}
+    options={{title :'Create Account'}} />
+</AuthStack.Navigator>
+);
 
+const Drawer = createDrawerNavigator();
+const DrawerScreen = () => (
+  <Drawer.Navigator initialRouteName="Profile">
+    <Drawer.Screen name="Home" component={TabsScreen}/>
+    <Drawer.Screen name="Profile" component={ProfileStackScreen}/>
+  </Drawer.Navigator>
+);
+
+const RootStack = createStackNavigator();
+const RootStackScreen = ({userToken}) => (
+  <RootStack.Navigator headerMode='none'>
+    {userToken ? (  
+      <RootStack.Screen 
+        name="App" 
+        component={DrawerScreen}
+        options={{animationEnabled : false}}/>
+    ):(
+      <RootStack.Screen 
+        name="Auth" 
+        component={AuthStackScreen}
+        options={{animationEnabled : false}}/>
+    )}
+  </RootStack.Navigator>
+);
 
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => (
@@ -47,27 +83,40 @@ const ProfileStackScreen = () => (
 const Tabs = createBottomTabNavigator();
 const TabsScreen = () => (
 <Tabs.Navigator>
-  <Tabs.Screen name="Home" component={HomeStackScreen} />
-  <Tabs.Screen name="Search" component={SearchStackScreen} />
+  <Tabs.Screen name="Home" component={HomeStackScreen} options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color }) => (
+            <Icons name="home" color={color} size={26} />
+          ),
+        }}/>
+  <Tabs.Screen name="Search" component={SearchStackScreen} options={{
+          tabBarLabel: 'Search',
+          tabBarIcon: ({ color }) => (
+            <Icons name="magnify" color={color} size={26} />
+          ),
+        }} />
 </Tabs.Navigator>
 );
 
+
+
+
 export default () => {
-  const [isLoading, setISLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [userToken, setuserToken] = React.useState(null);
 
   const authContext = React.useMemo(() => {
     return{
       signIn: () => {
-        setISLoading(false);
+        setIsLoading(false);
         setuserToken('asdf');
       },
       signUp: () => {
-        setISLoading(false);
+        setIsLoading(false);
         setuserToken('asdf');
       },
       signOut: () => {
-        setISLoading(false);
+        setIsLoading(false);
         setuserToken(null);
       }
     };
@@ -75,7 +124,7 @@ export default () => {
 
   React.useEffect(()=> {
     setTimeout(() => {
-      setISLoading(false);
+      setIsLoading(false);
     }, 1000);
   }, []);
 
@@ -86,22 +135,7 @@ export default () => {
   return(
     <AuthContext.Provider value={authContext}>
     <NavigationContainer>
-      {userToken ? (
-        <Drawer.Navigator initialRouteName="Profile">
-         <Drawer.Screen name="Home" component={TabsScreen}/>
-         <Drawer.Screen name="Profile" component={ProfileStackScreen}/>
-        </Drawer.Navigator>
-      ):(
-      <AuthStack.Navigator>
-        <AuthStack.Screen 
-          name="SignIn" 
-          component={SignIn} 
-          options={{title :'Sign In'}} />
-        <AuthStack.Screen 
-          name="CreateAccount" 
-          component={CreateAccount}
-          options={{title :'Create Account'}} />
-      </AuthStack.Navigator>)}           
+      <RootStackScreen userToken={userToken}/>      
     </NavigationContainer>
     </AuthContext.Provider>
   );
